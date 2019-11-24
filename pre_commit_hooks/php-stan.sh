@@ -14,13 +14,13 @@ phpstan_command="php $phpstan_local_exec"
 phpstan_vendor_command="vendor/bin/phpstan"
 phpstan_global_command="phpstan"
 if [ -f "$phpstan_vendor_command" ]; then
-	phpstan_command=$phpstan_vendor_command
+	phpstan_command="php -d memory_limit=-1 $phpstan_vendor_command"
 else
     if hash phpstan 2>/dev/null; then
         phpstan_command=$phpstan_global_command
     else
         if [ -f "$phpstan_local_exec" ]; then
-            phpstan_command=$phpstan_command
+            phpstan_command="php -d memory_limit=-1 $phpstan_command"
         else
             echo "No valid PHPStan executable found! Please have one available as either $phpstan_vendor_command, $phpstan_global_command or $phpstan_local_exec"
             exit 1
